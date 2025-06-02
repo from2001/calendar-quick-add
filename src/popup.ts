@@ -20,6 +20,9 @@ const getCurrentTabMessage = async (): Promise<string> => {
 const addEvent = async (text: string) => {
   console.log('addEvent called with text:', text);
   
+  // Simple test to see if button click is working
+  alert('Button clicked! Text: ' + text);
+  
   if (!text.trim()) {
     console.log('Text is empty, returning');
     return;
@@ -46,11 +49,25 @@ const addEvent = async (text: string) => {
     window.close();
   } catch (error) {
     console.error('Error in addEvent:', error);
+    alert('Error: ' + (error instanceof Error ? error.message : String(error)));
   }
 };
 
 document.addEventListener('DOMContentLoaded', () => {
   console.log('Popup DOM loaded');
+  
+  // Check if Chrome APIs are available
+  if (typeof chrome === 'undefined') {
+    console.error('Chrome APIs not available!');
+    return;
+  }
+  
+  if (!chrome.tabs) {
+    console.error('Chrome tabs API not available!');
+    return;
+  }
+  
+  console.log('Chrome APIs available');
   
   const eventTextInput = document.getElementById('eventText') as HTMLTextAreaElement;
   const addButton = document.getElementById('addButton') as HTMLButtonElement;
@@ -85,8 +102,11 @@ document.addEventListener('DOMContentLoaded', () => {
     addButton.disabled = !eventTextInput.value.trim();
   });
   
-  // Initial button state
-  addButton.disabled = !eventTextInput.value.trim();
+  // Initial button state (check after a short delay to ensure the textarea value is set)
+  setTimeout(() => {
+    addButton.disabled = !eventTextInput.value.trim();
+    console.log('Initial button state set, disabled:', addButton.disabled, 'value:', eventTextInput.value);
+  }, 10);
   
   console.log('Event listeners attached successfully');
 });
