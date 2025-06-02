@@ -15,6 +15,11 @@
     "service_worker": "js/background.js"
   },
 
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Google Calendar Quick Add"
+  },
+
   "permissions": [
     "contextMenus",
     "tabs"
