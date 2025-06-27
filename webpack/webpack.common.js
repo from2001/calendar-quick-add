@@ -5,6 +5,7 @@ const srcDir = path.join(__dirname, "..", "src");
 module.exports = {
     entry: {
       background: path.join(srcDir, 'background.ts'),
+      popup: path.join(srcDir, 'popup.ts'),
     },
     output: {
         path: path.join(__dirname, "../dist/js"),
@@ -14,7 +15,7 @@ module.exports = {
         splitChunks: {
             name: "vendor",
             chunks(chunk) {
-              return chunk.name !== 'background';
+              return chunk.name !== 'background' && chunk.name !== 'popup';
             }
         },
     },
